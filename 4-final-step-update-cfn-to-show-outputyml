@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  This templates demonstrates the creation of a simple S3
+  bucket. It allows for parameterising the bucket name and
+  a few other attributes.
+
+
+# Parameters help customise the behaviour of the cloud formation 
+# template. In this case we use the parameters to enable the
+# calling context to specify the bucket name.
+#
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html
+Parameters:
+  BucketName:
+    Type: String
+    Description: The name of the bucket.
+  BucketVersioning:
+    Type: String
+    Default: Suspended
+    AllowedValues:
+      - Enabled
+      - Suspended
+    Description: The versioning configuration for the bucket.
+  BucketAccessControl:
+    Type: String
+    Default: Private
+    AllowedValues:
+      - Private
+      - PublicRead
+      - PublicReadWrite
+      - AuthenticatedRead
+      - LogDeliveryWrite
+      - BucketOwnerRead
+      - BucketOwnerFullControl
+      - AwsExecRead
+    Description: Access control configuration for the bucket (default is Private).
+
+# Resources define the entities that the template is composed of that represent
+# infrastructure and services that will be deployed with the stack.
+# 
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+  # A bucket is a simple storage allocation in the cloud where we can store objects
+  # that can be represented a files.
+  #
+  # https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: !Ref BucketName
+      Tags:
+        - Key: Name
+          Value: !Join ['', [!Ref "AWS::StackName", "-Bucket"]]
+      AccessControl: !Ref BucketAccessControl
+      VersioningConfiguration: 
+        Status: !Ref BucketVersioning
+
+# Outputs define values exported by the template that can be used and captured
+# by other templates.
+#
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html      
+Outputs:
+  BucketName: 
+    Value: !Ref Bucket
+    Description: The name of the bucket.
+  BucketDomainName:
+    Value: !GetAtt Bucket.DomainName
+    Description: The DNS domain name of the bucket.
+  BucketRegionalDomainName:
+    Value: !GetAtt Bucket.RegionalDomainName
+    Description: The domain name including the AWS Region where the bucket is located.
+  BucketArn:
+    Value: !GetAtt Bucket.Arn
+    Description: The Amazon Resource Name (ARN) of the bucket.
