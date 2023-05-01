@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  This templates demonstrates the creation of a simple S3. 
+  bucket. It allows for parameterising the bucket name and
+  a few other attributes.
+Parameters:
+  BucketName: 
+    Type: String
+    Description: The name of the bucket.
+  BucketAccessControl:
+    Type: String
+    Default: Private
+    AllowedValues:
+    - Private
+    - PublicRead
+    - PublicReadWrite
+    - AuthenticatedRead
+    - LogDeliveryWrite
+    - BucketOwnerRead
+    - BucketOwnerFullControl
+    - AwsExecRead
+    Description: Access control configuration for the bucket (default is Private).
+  BucketVersioning:
+    Type: String
+    Default: Suspended
+    AllowedValues:
+    - Suspended
+    - Enabled
+    Description: Versioning configuration for the bucket.
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      AccessControl: !Ref BucketAccessControl 
+      VersioningConfiguration:
+        Status: !Ref BucketVersioning    
+      Tags:
+      - Key: Name
+        Value: !Join ['', [!Ref "AWS::StackName", "-Bucket"]]
