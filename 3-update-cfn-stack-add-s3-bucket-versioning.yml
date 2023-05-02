@@ -13,7 +13,6 @@ Parameters:
     AllowedValues:
     - Suspended
     - Enabled
-    - Disabled
     Description: Versioning configuration for the bucket.
 Resources:
   Bucket:
