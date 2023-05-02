@@ -19,7 +19,6 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Ref BucketName
-      AccessControl: !Ref BucketAccessControl 
       VersioningConfiguration:
         Status: !Ref BucketVersioning    
       Tags:
