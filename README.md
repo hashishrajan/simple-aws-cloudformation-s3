@@ -10,13 +10,13 @@ Please ensure you have AWS Cli Installed and configured on your machine before y
 
 #### **AWS Cli Commands to be in the following stages from 1-4 to complete the tasks**. 
 
-* Please rename <NAME-OF-THE-BUCKET> with a valid AWS S3 bucket name & <NAME-OF-THE-STACK> with the name of the AWS Cloudformation Stack before running the following scripts.
+* Please rename `<NAME-OF-THE-BUCKET>` with a valid AWS S3 bucket name & <NAME-OF-THE-STACK> with the name of the AWS Cloudformation Stack before running the following scripts.
 
-* Please rename <OPTIONAL-Only-if-AWS-Profile-Exists> with your AWS Cli Profile only if you have a local AWS Cli profile on your machine.
+* Please rename `<OPTIONAL-Only-if-AWS-Profile-Exists>` with your AWS Cli Profile only if you have a local AWS Cli profile on your machine.
 
-* Please rename <REGION-FOR-AWS-S3-BUCKET> with the AWS Region where you want the AWS S3 bucket to be created.
+* Please rename `<REGION-FOR-AWS-S3-BUCKET>` with the AWS Region where you want the AWS S3 bucket to be created.
 
-#### Stage 1
+##### Stage 1
 
 At this stage, we are creating the AWS Cloudformation Template. This action once completed will create the AWS S3 bucket in your selected AWS Account.
 
@@ -29,7 +29,7 @@ aws cloudformation create-stack \
     --region <REGION-FOR-AWS-S3-BUCKET>
  ``` 
 
-#### Stage 2
+##### Stage 2
 
 ```     
 aws cloudformation deploy \
@@ -40,43 +40,42 @@ aws cloudformation deploy \
      --region <REGION-FOR-AWS-S3-BUCKET>
  ``` 
 
-#### Stage 3
+##### Stage 3
 ``` 
-aws cloudformation deploy 
+aws cloudformation deploy \
      --stack-name <NAME-OF-THE-STACK> \
      --template-file file://3-update-cfn-stack-add-s3-bucket-versioning.yml  \
      --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
      --region <REGION-FOR-AWS-S3-BUCKET> 
 ```
-#### Stage 4
+##### Stage 4
 ``` 
-aws cloudformation deploy 
+aws cloudformation deploy \
       --stack-name <NAME-OF-THE-STACK> \
       --template-file file://4-final-step-update-cfn-to-show-output.yml  \
      --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
      --region <REGION-FOR-AWS-S3-BUCKET> 
 ```      
  
-#### Final Stage - 
+##### Final Stage
  
 ##### Cleanup the AWS S3 Bucket so you don't get charged by AWS
  
-Check the Versioning status of your AWS S3 bucket
+###### Check the Versioning status of your AWS S3 bucket
 ```
-aws s3api get-bucket-versioning --bucket <NAME-OF-THE-BUCKET>
+aws s3api get-bucket-versioning --bucket <NAME-OF-THE-BUCKET> \
  --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
  --region <REGION-FOR-AWS-S3-BUCKET> 
 ```  
  
-If you have Disabled AWS S3 Bucket versioning, then use the following 
-
+###### If you have Disabled AWS S3 Bucket versioning, then use the following 
 ```
-aws s3 rm s3://<NAME-OF-THE-BUCKET> --recursive
+aws s3 rm s3://<NAME-OF-THE-BUCKET> --recursive \
  --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
  --region <REGION-FOR-AWS-S3-BUCKET> 
 ``` 
  
-If you have Enabled AWS S3 Bucket versioning, then use the following 
+###### If you have Enabled AWS S3 Bucket versioning, then use the following 
 ```
 aws s3api delete-objects --bucket <NAME-OF-THE-BUCKET> \ 
   --delete "$(aws s3api list-object-versions \
@@ -87,14 +86,14 @@ aws s3api delete-objects --bucket <NAME-OF-THE-BUCKET> \
  --region <REGION-FOR-AWS-S3-BUCKET> 
 ``` 
 
-Empty the AWS S3 bucket before deletion, incase you have something uploaded there. 
+###### Empty the AWS S3 bucket before deletion, incase you have something uploaded there. 
 ```
 aws s3 rb s3://<NAME-OF-THE-BUCKET> \
  --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
  --region <REGION-FOR-AWS-S3-BUCKET> 
 ```
 
-Cleanup the AWS Cloudformation Template to reset your AWS Account.
+##### Cleanup the AWS Cloudformation Template to reset your AWS Account.
 ``` 
 aws cloudformation delete-stack \
  --stack-name <NAME-OF-THE-STACK> \
