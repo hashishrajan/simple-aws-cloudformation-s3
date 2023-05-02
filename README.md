@@ -59,5 +59,7 @@ aws cloudformation deploy
  
 #### Final Stage - Cleanup so you don't get charged by AWS
 ```
-aws s3 rb s3://<NAME-OF-THE-BUCKET>
+aws s3 rb s3://<NAME-OF-THE-BUCKET> \
+ --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
+ --region <REGION-FOR-AWS-S3-BUCKET> 
 ```
