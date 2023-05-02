@@ -1,8 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
   This templates demonstrates the creation of a simple S3. 
-  bucket. It allows for parameterising the bucket name and
-  a few other attributes.
+  bucket. There is a Bucket policy attached to only allow encrypted uploads and by default encrypts the S3 Bucket.
 Parameters:
   BucketName: 
     Type: String
