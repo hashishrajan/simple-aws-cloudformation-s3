@@ -36,8 +36,8 @@ aws cloudformation create-stack \
 ```     
 aws cloudformation deploy \
      --stack-name <NAME-OF-THE-STACK> \
-     --template-body file://2-update-cfn-stack-aws-s3-accesscontrol.yml \
-     --parameter-overrides BucketAccessControl=PublicRead \
+     --template-file 2-update-cfn-stack-aws-s3-only-encrypted-upload.yml \
+     --parameter-overrides BucketName=<NAME-OF-THE-BUCKET> \
      --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
      --region <REGION-FOR-AWS-S3-BUCKET>
  ``` 
@@ -46,8 +46,9 @@ aws cloudformation deploy \
 ``` 
 aws cloudformation deploy \
      --stack-name <NAME-OF-THE-STACK> \
-     --template-body file://3-update-cfn-stack-add-s3-bucket-versioning.yml  \
+     --template-file 3-update-cfn-stack-add-s3-bucket-versioning.yml  \
      --parameter-overrides BucketVersioning=Enabled \
+     --tags "Purpose=Test" \
      --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
      --region <REGION-FOR-AWS-S3-BUCKET> 
 ```
@@ -55,7 +56,7 @@ aws cloudformation deploy \
 ``` 
 aws cloudformation deploy \
       --stack-name <NAME-OF-THE-STACK> \
-      --template-body file://4-final-step-update-cfn-to-show-output.yml  \
+      --template-file 4-final-step-update-cfn-to-show-output.yml  \
       --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
       --region <REGION-FOR-AWS-S3-BUCKET> 
 ```      
@@ -63,7 +64,27 @@ aws cloudformation deploy \
 ##### Final Stage
  
 ##### Cleanup the AWS S3 Bucket so you don't get charged by AWS
- 
+
+##### Disable S3 bucket versioning using the AWS Cloudformation Template to reset your AWS Account.
+``` 
+aws cloudformation deploy \
+     --stack-name <NAME-OF-THE-STACK> \
+     --template-file 3-update-cfn-stack-add-s3-bucket-versioning.yml  \
+     --parameter-overrides BucketVersioning=Suspended \
+     --tags "Purpose=Test" \
+     --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
+     --region <REGION-FOR-AWS-S3-BUCKET> 
+```
+
+##### Cleanup the AWS Cloudformation Template to reset your AWS Account.
+``` 
+aws cloudformation delete-stack \
+ --stack-name <NAME-OF-THE-STACK> \
+ --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
+ --region <REGION-FOR-AWS-S3-BUCKET> 
+```
+
+#### NOTE: Use the steps below to use AWS Cli to Cleanup if the above Cloudformation doesn't work for any reason. 
 ###### Check the Versioning status of your AWS S3 bucket
 ```
 aws s3api get-bucket-versioning --bucket <NAME-OF-THE-BUCKET> \
@@ -92,14 +113,6 @@ aws s3api delete-objects --bucket <NAME-OF-THE-BUCKET> \
 ###### Empty the AWS S3 bucket before deletion, incase you have something uploaded there. 
 ```
 aws s3 rb s3://<NAME-OF-THE-BUCKET> \
- --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
- --region <REGION-FOR-AWS-S3-BUCKET> 
-```
-
-##### Cleanup the AWS Cloudformation Template to reset your AWS Account.
-``` 
-aws cloudformation delete-stack \
- --stack-name <NAME-OF-THE-STACK> \
  --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
  --region <REGION-FOR-AWS-S3-BUCKET> 
 ```
