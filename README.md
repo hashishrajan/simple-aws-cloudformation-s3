@@ -10,11 +10,13 @@ Please ensure you have AWS Cli Installed and configured on your machine before y
 
 #### **AWS Cli Commands to be in the following stages from 1-4 to complete the tasks**. 
 
-* Please rename `<NAME-OF-THE-BUCKET>` with a valid AWS S3 bucket name & <NAME-OF-THE-STACK> with the name of the AWS Cloudformation Stack before running the following scripts.
+* Please rename `<NAME-OF-THE-STACK>` with the name of the AWS Cloudformation Stack, before running the following scripts.
 
-* Please rename `<OPTIONAL-Only-if-AWS-Profile-Exists>` with your AWS Cli Profile only if you have a local AWS Cli profile on your machine.
+* Please rename `<NAME-OF-THE-BUCKET>` with a valid AWS S3 bucket name, before running the following scripts.
 
-* Please rename `<REGION-FOR-AWS-S3-BUCKET>` with the AWS Region where you want the AWS S3 bucket to be created.
+* Please rename `<OPTIONAL-Only-if-AWS-Profile-Exists>` with your AWS Cli Profile only if you have a local AWS Cli profile on your machine, before running the following scripts.
+
+* Please rename `<REGION-FOR-AWS-S3-BUCKET>` with the AWS Region where you want the AWS S3 bucket to be created, before running the following scripts.
 
 ##### Stage 1
 
