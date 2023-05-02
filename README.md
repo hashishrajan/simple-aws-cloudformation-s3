@@ -57,9 +57,47 @@ aws cloudformation deploy
      --region <REGION-FOR-AWS-S3-BUCKET> 
 ```      
  
-#### Final Stage - Cleanup so you don't get charged by AWS
+#### Final Stage - 
+ 
+##### Cleanup the AWS S3 Bucket so you don't get charged by AWS
+ 
+Check the Versioning status of your AWS S3 bucket
+```
+aws s3api get-bucket-versioning --bucket <NAME-OF-THE-BUCKET>
+ --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
+ --region <REGION-FOR-AWS-S3-BUCKET> 
+```  
+ 
+If you have Disabled AWS S3 Bucket versioning, then use the following 
+
+```
+aws s3 rm s3://<NAME-OF-THE-BUCKET> --recursive
+ --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
+ --region <REGION-FOR-AWS-S3-BUCKET> 
+``` 
+ 
+If you have Enabled AWS S3 Bucket versioning, then use the following 
+```
+aws s3api delete-objects --bucket <NAME-OF-THE-BUCKET> \ 
+  --delete "$(aws s3api list-object-versions \
+  --bucket "<NAME-OF-THE-BUCKET>" \
+  --output=json \
+  --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')" \
+ --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
+ --region <REGION-FOR-AWS-S3-BUCKET> 
+``` 
+
+Empty the AWS S3 bucket before deletion, incase you have something uploaded there. 
 ```
 aws s3 rb s3://<NAME-OF-THE-BUCKET> \
+ --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
+ --region <REGION-FOR-AWS-S3-BUCKET> 
+```
+
+Cleanup the AWS Cloudformation Template to reset your AWS Account.
+``` 
+aws cloudformation delete-stack \
+ --stack-name <NAME-OF-THE-STACK> \
  --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
  --region <REGION-FOR-AWS-S3-BUCKET> 
 ```
