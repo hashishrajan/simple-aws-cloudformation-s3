@@ -36,7 +36,7 @@ aws cloudformation create-stack \
 ```     
 aws cloudformation deploy \
      --stack-name <NAME-OF-THE-STACK> \
-     --template-file file://2-update-cfn-stack-aws-s3-accesscontrol.yml \
+     --template-body file://2-update-cfn-stack-aws-s3-accesscontrol.yml \
      --parameter-overrides BucketAccessControl=PublicRead \
      --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
      --region <REGION-FOR-AWS-S3-BUCKET>
@@ -46,7 +46,7 @@ aws cloudformation deploy \
 ``` 
 aws cloudformation deploy \
      --stack-name <NAME-OF-THE-STACK> \
-     --template-file file://3-update-cfn-stack-add-s3-bucket-versioning.yml  \
+     --template-body file://3-update-cfn-stack-add-s3-bucket-versioning.yml  \
      --parameter-overrides BucketVersioning=Enabled \
      --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
      --region <REGION-FOR-AWS-S3-BUCKET> 
@@ -55,7 +55,7 @@ aws cloudformation deploy \
 ``` 
 aws cloudformation deploy \
       --stack-name <NAME-OF-THE-STACK> \
-      --template-file file://4-final-step-update-cfn-to-show-output.yml  \
+      --template-body file://4-final-step-update-cfn-to-show-output.yml  \
       --profile <OPTIONAL-Only-if-AWS-Profile-Exists> \
       --region <REGION-FOR-AWS-S3-BUCKET> 
 ```      
