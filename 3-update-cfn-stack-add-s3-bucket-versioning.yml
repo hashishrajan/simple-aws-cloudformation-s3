@@ -7,25 +7,13 @@ Parameters:
   BucketName: 
     Type: String
     Description: The name of the bucket.
-  BucketAccessControl:
-    Type: String
-    Default: Private
-    AllowedValues:
-    - Private
-    - PublicRead
-    - PublicReadWrite
-    - AuthenticatedRead
-    - LogDeliveryWrite
-    - BucketOwnerRead
-    - BucketOwnerFullControl
-    - AwsExecRead
-    Description: Access control configuration for the bucket (default is Private).
   BucketVersioning:
     Type: String
     Default: Suspended
     AllowedValues:
     - Suspended
     - Enabled
+    - Disabled
     Description: Versioning configuration for the bucket.
 Resources:
   Bucket:
