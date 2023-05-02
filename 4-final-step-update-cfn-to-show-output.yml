@@ -14,19 +14,6 @@ Parameters:
       - Enabled
       - Suspended
     Description: The versioning configuration for the bucket.
-  BucketAccessControl:
-    Type: String
-    Default: Private
-    AllowedValues:
-      - Private
-      - PublicRead
-      - PublicReadWrite
-      - AuthenticatedRead
-      - LogDeliveryWrite
-      - BucketOwnerRead
-      - BucketOwnerFullControl
-      - AwsExecRead
-    Description: Access control configuration for the bucket (default is Private).
 Resources:
   Bucket:
     Type: AWS::S3::Bucket
@@ -35,7 +22,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Join ['', [!Ref "AWS::StackName", "-Bucket"]]
-      AccessControl: !Ref BucketAccessControl
       VersioningConfiguration: 
         Status: !Ref BucketVersioning
 Outputs:
